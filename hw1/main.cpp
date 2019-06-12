@@ -88,21 +88,21 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		hBtnStart = CreateWindow(TEXT("button"), start_pause.c_str(), WS_CHILD | WS_VISIBLE
 			| BS_OWNERDRAW, 160, 120, 100, 100, hwnd, (HMENU)2, NULL, NULL);
 		wsprintf(current_time, "%d:%d:%d:%d", sw.hour, sw.minute, sw.second, sw.microsecond);
-		hTxt = CreateWindow(TEXT("static"), current_time, WS_CHILD | WS_VISIBLE  |BS_TEXT| BS_CENTER ,
+		hTxt = CreateWindow(TEXT("static"), current_time, WS_CHILD | WS_VISIBLE | BS_TEXT | BS_CENTER,
 			30, 40, 230, 40, hwnd, (HMENU)3, NULL, NULL);
 		break;
 	}
-	
+
 	case WM_COMMAND: {
 
 		wmId = LOWORD(wParam);
 		wmEvent = HIWORD(wParam);
 		switch (wmId) {
 		case 1: {
-		//	SendMessage(hwnd, BM_GETSTATE, BN_CLICKED, 0);
-			//SendMessage(hwnd, BM_SETSTATE,1 , 0);//设置按键为按下
-			//SendMessage(hwnd, BM_SETSTATE, 0, 0);//设置按键恢复到正常状态
-			//reset stop watch
+			//	SendMessage(hwnd, BM_GETSTATE, BN_CLICKED, 0);
+				//SendMessage(hwnd, BM_SETSTATE,1 , 0);//设置按键为按下
+				//SendMessage(hwnd, BM_SETSTATE, 0, 0);//设置按键恢复到正常状态
+				//reset stop watch
 			KillTimer(hwnd, 1);
 			TCHAR text_buffer[1024];
 			GetWindowText(hBtnStart, text_buffer, 1024);
@@ -139,13 +139,13 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		}
 		break;
 	}
-	
-	/*case BM_SETSTATE:
-	{
-		MessageBox(hwnd, TEXT("clicked"), TEXT("click"), 0);
-		MoveWindow(hwnd, 20, 20, 100, 100, TRUE);
-		break;
-	}*/
+
+					 /*case BM_SETSTATE:
+					 {
+						 MessageBox(hwnd, TEXT("clicked"), TEXT("click"), 0);
+						 MoveWindow(hwnd, 20, 20, 100, 100, TRUE);
+						 break;
+					 }*/
 	case WM_TIMER: {
 		UpdateTime(hTxt);
 		break;
@@ -154,21 +154,20 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		pdis = (LPDRAWITEMSTRUCT)lParam;
 		//重绘bkg
 		FillRect(pdis->hDC, &pdis->rcItem, (HBRUSH)GetStockObject(WHITE_BRUSH));
-		
+
 		if (pdis->CtlID == 1) {
 			if (pdis->itemState) {
 				hpen = CreatePen(PS_SOLID, 2, RGB(100, 100, 255));
 				hbrush = CreateSolidBrush(RGB(180, 180, 255));
 				SetBkColor(pdis->hDC, RGB(180, 180, 255));
 			}
-			else
-			{
+			else {
 				//创建紫色笔和笔刷
 				hpen = CreatePen(PS_SOLID, 2, RGB(150, 150, 255));
 				hbrush = CreateSolidBrush(RGB(220, 220, 255));
 				SetBkColor(pdis->hDC, RGB(220, 220, 255));
 			}
-			
+
 
 			//指定笔刷
 
@@ -177,12 +176,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
 			RoundRect(pdis->hDC, 0, 0, 100, 100, 100, 100);
 			//设置文本背景颜色和文本颜色
-			
+
 			SetTextColor(pdis->hDC, RGB(0, 0, 50));
 			TCHAR text_buffer[1024];
 			GetWindowText(pdis->hwndItem, text_buffer, 1024);
 			TextOut(pdis->hDC, 30, 40, text_buffer, strlen(text_buffer));
-			
+
 			DeleteObject(hpen);
 			DeleteObject(hbrush);
 
@@ -191,11 +190,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			TCHAR text_buffer[1024];
 			GetWindowText(pdis->hwndItem, text_buffer, 1024);
 			start_pause = std::string(text_buffer);
-			if (start_pause == "start")
-			{//RoundRect(pdis->hDC, 10, 100, 100, 200, 40, 40);
+			if (start_pause == "start") {//RoundRect(pdis->hDC, 10, 100, 100, 200, 40, 40);
 				hpen = CreatePen(PS_SOLID, 2, RGB(150, 255, 150));
 				hbrush = CreateSolidBrush(RGB(220, 255, 220));
-				
+
 				SetBkColor(pdis->hDC, RGB(220, 255, 220));
 				SetTextColor(pdis->hDC, RGB(0, 50, 0));
 
@@ -203,7 +201,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			else {
 				hpen = CreatePen(PS_SOLID, 2, RGB(255, 150, 150));
 				hbrush = CreateSolidBrush(RGB(255, 220, 220));
-			
+
 				SetBkColor(pdis->hDC, RGB(255, 220, 220));
 				SetTextColor(pdis->hDC, RGB(50, 0, 0));
 
